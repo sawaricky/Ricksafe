@@ -5,6 +5,8 @@ import { AuthProvider } from './context/AuthContext';
 import { WalletProvider } from './context/WalletContext';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Buffer } from 'buffer';
+(window as any).Buffer = Buffer;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

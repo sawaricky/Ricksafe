@@ -1,68 +1,33 @@
-// src/components/auth/SignIn.tsx
+// src/components/auth/SignUp.tsx
 // --------------------------------------------------
 
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
+import { generateMnemonic } from '../../utils/derivation';
 import { useAuth } from '../../context/AuthContext';
-import { useWalletContext } from '../../context/WalletContext';
-import { loadUser, loadWallet } from '../../utils/storage';
-import { decryptWithPassword, fromBase64 } from '../../utils/crypto';
-import { Keypair } from '@solana/web3.js';
 import { ArrowLeft } from 'react-bootstrap-icons';
 
-export default function SignIn() {
+export default function SignUp() {
   const { signIn } = useAuth();
-  const { setWalletFromKeypair } = useWalletContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
   const navigate = useNavigate();
-  const loc = useLocation();
-  const next = (loc.state as any)?.next || '/account/view';
 
-  const handle = async () => {
-    try {
-      setErr('');
-      if (!username.trim() || !password.trim()) {
-        setErr('Username and password are required.');
-        return;
-      }
-
-      const u = await loadUser(username);
-      if (!u) {
-        setErr('No such user. Please sign up first.');
-        return;
-      }
-      if (u.password !== password) {
-        setErr('Incorrect password.');
-        return;
-      }
-
-      signIn(u.username, password);
-
-      const stored = await loadWallet(u.username);
-      if (stored) {
-        try {
-          const secretBytes = await decryptWithPassword(
-            password,
-            fromBase64(stored.ciphertext),
-            fromBase64(stored.iv),
-            fromBase64(stored.salt),
-          );
-          const kp = Keypair.fromSecretKey(secretBytes);
-          setWalletFromKeypair(kp);
-          console.log("✅ Wallet loaded on sign-in:", kp.publicKey.toBase58());
-        } catch (e) {
-          console.error("⚠️ Wallet exists but failed to decrypt:", e);
-        }
-      }
-
-      navigate(next, { replace: true });
-    } catch (e: any) {
-      console.error('❌ SignIn error:', e);
-      setErr(e?.message || 'Failed to sign in');
+  const handleSignUp = () => {
+    if (!username.trim() || !password.trim()) {
+      setErr('Username and password are required.');
+      return;
     }
+
+    const mnemonic = generateMnemonic();
+    localStorage.setItem('solrick.auth.password', password);
+
+    signIn(username, password);
+
+    console.log("🆕 Signing up new user:", username);
+    navigate('/wallet/backup', { state: { mnemonic } });
   };
 
   return (
@@ -79,7 +44,7 @@ export default function SignIn() {
         className="p-4 shadow-sm"
         style={{
           width: '100%',
-          maxWidth: 540, // wider card
+          maxWidth: 520, // wider card
           borderRadius: 12,
         }}
       >
@@ -92,12 +57,12 @@ export default function SignIn() {
           <ArrowLeft className="me-1" /> Back
         </Button>
 
-        {/* Title + subtitle */}
+        {/* Header */}
         <h2 style={{ color: '#1C1E26', fontWeight: 600, textAlign: 'center' }}>
-          RickSafe Wallet
+          Create your RickSafe account
         </h2>
         <p style={{ color: '#5A6270', textAlign: 'center' }}>
-          Sign in to access your wallet
+          Securely set up your wallet in a few steps
         </p>
 
         {/* Username */}
@@ -106,7 +71,7 @@ export default function SignIn() {
           <Form.Control
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="e.g. Akash"
+            placeholder="Choose a username"
             style={{ borderRadius: 8 }}
           />
         </Form.Group>
@@ -118,7 +83,7 @@ export default function SignIn() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            placeholder="Create a password"
             style={{ borderRadius: 8 }}
           />
         </Form.Group>
@@ -127,7 +92,7 @@ export default function SignIn() {
         <Button
           className="mt-4 w-100"
           style={{ backgroundColor: '#4F8DF7', border: 'none', borderRadius: 8 }}
-          onClick={handle}
+          onClick={handleSignUp}
         >
           Continue
         </Button>
@@ -141,9 +106,9 @@ export default function SignIn() {
 
         {/* Footer */}
         <div className="mt-4 text-center">
-          <span style={{ color: '#5A6270' }}>Don’t have an account? </span>
-          <a href="/signup" style={{ color: '#4F8DF7', fontWeight: 500 }}>
-            Sign Up
+          <span style={{ color: '#5A6270' }}>Already have an account? </span>
+          <a href="/signin" style={{ color: '#4F8DF7', fontWeight: 500 }}>
+            Sign In
           </a>
         </div>
       </Card>
