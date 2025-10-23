@@ -7,6 +7,7 @@ import CreateWallet from './components/wallet/CreateWallet';
 import ImportWallet from './components/wallet/ImportWallet';
 import SendSol from './components/wallet/SendSol';
 import ViewWallet from './components/wallet/ViewWallet';
+import ReceiveSol from './components/wallet/ReceiveSol';
 import BackupSeed from './components/wallet/BackupSeed';
 import ConfirmSeed from './components/wallet/ConfirmSeed';
 import LandingPage from './components/pages/LandingPage';
@@ -35,7 +36,7 @@ export default function App() {
             <Route path="import" element={<ImportWallet />} />
             <Route path="send" element={<SendSol />} />
             <Route path="view" element={<ViewWallet />} />
-            <Route path="receive" element={<div>Coming soon: Receive SOL</div>} />
+            <Route path="receive" element={<ReceiveSol />} />
           </Route>
 
           {/* Wallet creation flow */}

@@ -116,8 +116,13 @@ export default function SendSol() {
     // UI-only change: remove vh-100, center within the layout's canvas
     <div className="d-flex w-100 h-100 align-items-center justify-content-center bg-light">
       <Card
-        className="p-4 shadow border-0"
-        style={{ maxWidth: 520, width: "100%", borderRadius: 16 }}
+        className="p-4 border-0"
+        style={{
+          maxWidth: 520,
+          width: "100%",
+          borderRadius: 16,
+          boxShadow: '0 12px 30px rgba(59,130,246,0.14)'
+        }}
       >
         {/* Header */}
         <div className="d-flex align-items-center gap-2 mb-3">

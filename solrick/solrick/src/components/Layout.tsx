@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Topbar from "./layout/Topbar";
 import Sidebar from "./layout/Sidebar";
+import Footer from "./layout/Footer";
 import { Outlet } from "react-router-dom";
 
 export default function Layout({ children }: { children?: React.ReactNode }) {
@@ -53,6 +54,9 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Mobile Offcanvas Sidebar (separate so it still mounts) */}
       <Sidebar

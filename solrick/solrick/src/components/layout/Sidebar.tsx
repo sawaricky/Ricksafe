@@ -42,7 +42,7 @@ export default function Sidebar({
       await deleteLocalVault();
       clearWallet();
       setHasVault(false);
-      navigate("/account");
+      navigate("/");
       onHide();
     } catch (err) {
       console.error("❌ Failed to remove wallet:", err);
@@ -175,7 +175,7 @@ export default function Sidebar({
           </div>
         )}
 
-        <div className="mt-3 mb-1 small text-muted px-2">Pump.fun</div>
+        <div className="mt-3 mb-1 small text-muted px-2">Pump fun</div>
         <div
           className="d-grid gap-2 px-2 pb-2"
           style={{

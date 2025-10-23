@@ -6,13 +6,10 @@
 import { useEffect, useState } from 'react';
 import { useWalletContext } from '../../context/WalletContext';
 import { Button, Alert } from 'react-bootstrap';
-import { QRCodeCanvas } from 'qrcode.react';
 
 export default function ViewWallet() {
   const { wallet, fetchBalance, exportSecret } = useWalletContext();
-  const [copied, setCopied] = useState(false);
   const [exported, setExported] = useState(false);
-  const [amount] = useState('');
 
   useEffect(() => {
     fetchBalance().catch(() => {});
@@ -22,13 +19,7 @@ export default function ViewWallet() {
 
   const address = wallet.keypair.publicKey.toBase58();
   const shortKey = address.slice(0, 6) + '...' + address.slice(-6);
-  const payload = amount ? `solana:${address}?amount=${amount}` : address;
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(address);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
+  // Public key and QR moved to ReceiveSol page
 
   const handleExport = async () => {
     const secret = exportSecret();
@@ -40,10 +31,11 @@ export default function ViewWallet() {
 
   return (
     <div
-      className="p-4 text-white rounded-4 shadow-lg"
+      className="p-5 text-white rounded-4 shadow-lg"
       style={{
         background: 'linear-gradient(135deg, #6366f1, #3b82f6)',
-        maxWidth: 420,
+        maxWidth: 720,
+        width: '95%',
         margin: '0 auto',
       }}
     >
@@ -52,31 +44,18 @@ export default function ViewWallet() {
         <small>{shortKey}</small>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-5">
         <div className="text-uppercase small text-white-50">Balance</div>
-        <div className="fs-3 fw-bold">◎ {wallet.balance.toFixed(3)} SOL</div>
+        <div className="fs-2 fw-bold">◎ {wallet.balance.toFixed(3)} SOL</div>
       </div>
 
-      <div className="mb-3">
+      <div className="mb-4">
+        {/* Public key and QR code moved to ReceiveSol page to avoid duplication */}
         <div className="text-uppercase small text-white-50">Public Key</div>
-        <div className="d-flex align-items-center gap-2">
-          <code className="text-truncate">{address}</code>
-          <Button size="sm" variant="light" onClick={handleCopy}>
-            Copy
-          </Button>
-        </div>
-        {copied && (
-          <Alert className="mt-2 py-1 mb-0" variant="success">
-            Address copied
-          </Alert>
-        )}
+        <div className="text-white-50 small">See Receive SOL to view address QR</div>
       </div>
 
-      <div className="bg-white p-3 rounded d-flex justify-content-center mb-3">
-        <QRCodeCanvas value={payload} size={160} includeMargin />
-      </div>
-
-      <div className="d-grid gap-2">
+      <div className="d-grid gap-3">
         <Button size="sm" variant="light" onClick={handleExport}>
           Export Secret Key
         </Button>
