@@ -22,46 +22,57 @@ export default function ReceiveSol() {
   };
 
   return (
-    <div
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: 'calc(100vh - 56px)' }}
-    >
-      <div
-        className="p-4 rounded-4 bg-white"
-        style={{
-          maxWidth: 560,
-          width: '95%',
-          boxShadow: '0 12px 30px rgba(59,130,246,0.14)'
-        }}
-      >
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4 className="mb-0">Receive SOL</h4>
-          <small className="text-muted">{shortKey}</small>
-        </div>
+    <div className="container py-4" style={{ minHeight: 'calc(100vh - 56px)' }}>
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-10 col-lg-8">
+          <div className="p-3 p-md-4 rounded-4 bg-white shadow-sm">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="mb-0">Receive SOL</h4>
+              <small className="text-muted d-none d-sm-inline">{shortKey}</small>
+            </div>
 
-        <div className="mb-4">
-          <div className="text-uppercase small text-muted">Public Key</div>
-          <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
-            <code className="text-truncate" style={{ wordBreak: 'break-all' }}>
-              {address}
-            </code>
-            <Button size="sm" variant="primary" onClick={handleCopy}>
-              Copy
-            </Button>
+            <div className="row g-3 align-items-center">
+              <div className="col-12 col-lg-7">
+                <div className="mb-2 text-uppercase small text-muted">Public Key</div>
+                <div className="d-flex flex-column gap-2">
+                  <code className="text-break" style={{ fontSize: 13 }}>
+                    {address}
+                  </code>
+                  <div className="d-flex gap-2">
+                    <Button size="sm" variant="outline-primary" onClick={handleCopy}>
+                      Copy
+                    </Button>
+                    {copied && (
+                      <Alert className="mb-0 py-1 px-2" variant="success">
+                        Address copied
+                      </Alert>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-12 col-lg-5 d-flex justify-content-center">
+                <div
+                  style={{
+                    width: 'min(240px, 45vw)',
+                    maxWidth: 260,
+                    background: '#f8fafc',
+                    padding: 12,
+                    borderRadius: 12,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <QRCodeCanvas value={address} size={Math.min(240, Math.round(window.innerWidth * 0.45))} includeMargin />
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center text-muted small mt-3">
+              Share this QR code or address to receive SOL.
+            </div>
           </div>
-          {copied && (
-            <Alert className="mt-2 py-1 mb-0" variant="success">
-              Address copied
-            </Alert>
-          )}
-        </div>
-
-        <div className="d-flex justify-content-center bg-light p-3 rounded mb-2">
-          <QRCodeCanvas value={address} size={200} includeMargin />
-        </div>
-
-        <div className="text-center text-muted small mt-2">
-          Share this QR code or address to receive SOL.
         </div>
       </div>
     </div>

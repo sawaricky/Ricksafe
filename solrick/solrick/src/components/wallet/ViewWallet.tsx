@@ -30,40 +30,41 @@ export default function ViewWallet() {
   };
 
   return (
-    <div
-      className="p-5 text-white rounded-4 shadow-lg"
-      style={{
-        background: 'linear-gradient(135deg, #6366f1, #3b82f6)',
-        maxWidth: 720,
-        width: '95%',
-        margin: '0 auto',
-      }}
-    >
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className="mb-0">💠 RickSafe Wallet</h4>
-        <small>{shortKey}</small>
-      </div>
+    <div className="container py-3">
+      <div
+        className="text-white rounded-4 shadow-lg mx-auto"
+        style={{
+          background: 'linear-gradient(135deg, #6366f1, #3b82f6)',
+          maxWidth: 720,
+          width: '100%',
+          padding: '1.25rem',
+        }}
+      >
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <h4 className="mb-0">💠 RickSafe Wallet</h4>
+          <small className="text-white-50 d-none d-sm-inline">{shortKey}</small>
+        </div>
 
-      <div className="mb-5">
-        <div className="text-uppercase small text-white-50">Balance</div>
-        <div className="fs-2 fw-bold">◎ {wallet.balance.toFixed(3)} SOL</div>
-      </div>
+        <div className="mb-4">
+          <div className="text-uppercase small text-white-50">Balance</div>
+          <div className="fs-4 fs-sm-2 fw-bold">◎ {wallet.balance.toFixed(3)} SOL</div>
+        </div>
 
-      <div className="mb-4">
-        {/* Public key and QR code moved to ReceiveSol page to avoid duplication */}
-        <div className="text-uppercase small text-white-50">Public Key</div>
-        <div className="text-white-50 small">See Receive SOL to view address QR</div>
-      </div>
+        <div className="mb-3">
+          <div className="text-uppercase small text-white-50">Public Key</div>
+          <div className="text-white-50 small">See Receive SOL to view address QR</div>
+        </div>
 
-      <div className="d-grid gap-3">
-        <Button size="sm" variant="light" onClick={handleExport}>
-          Export Secret Key
-        </Button>
-        {exported && (
-          <Alert className="mt-2 py-1 mb-0" variant="warning">
-            Secret key copied — keep it safe!
-          </Alert>
-        )}
+        <div className="d-grid gap-2">
+          <Button size="sm" variant="light" onClick={handleExport}>
+            Export Secret Key
+          </Button>
+          {exported && (
+            <Alert className="mt-2 py-1 mb-0" variant="warning">
+              Secret key copied — keep it safe!
+            </Alert>
+          )}
+        </div>
       </div>
     </div>
   );
