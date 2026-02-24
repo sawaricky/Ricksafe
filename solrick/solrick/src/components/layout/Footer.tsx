@@ -21,7 +21,7 @@ export default function Footer() {
 
           <Col xs={12} md={6} className="mt-3 mt-md-0 small text-muted d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-end gap-2">
             <div>
-              <span className="me-2">copyright © 2025 RickSafe</span>
+              <span className="me-2">copyright © 2026 RickSafe</span>
             </div>
             <div>
               <a href="#" className="text-muted me-2">Privacy</a>
